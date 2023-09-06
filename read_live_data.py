@@ -1,18 +1,23 @@
 import json
 import requests
-#import paho.mqtt.client as mqtt
-#import ha-mqtt-discoverable
-# Opening JSON file
-f = open('config.json')
-  
-# returns JSON object as 
-# a dictionary
-data = json.load(f)
-f.close() 
+import os
+import datetime
+
+#Getting the actual path of your working dir and open the config file
+pwd = os.getcwd()
+file = open(pwd+'/config.json')
+
+#Getting time and date as a timestamp for further use
+# date = str(datetime.datetime.now())
+
+# returns JSON object as a dictionary
+data = json.load(file)
+file.close() 
 
 class GridboxConnector:
     id_token = ""
-
+    response_json = ""
+  
     def __init__(self,config):
         self.login_url = config["urls"]["login"]
         self.login_body = config["login"]
@@ -21,6 +26,7 @@ class GridboxConnector:
         self.get_token()
         self.generate_header()
         self.get_gateway_id()
+        self.get_response()
 
     def get_token(self):
         response = requests.post(self.login_url, self.login_body)
@@ -35,6 +41,11 @@ class GridboxConnector:
         response_json = response.json()
         gateway = response_json[0]
         self.gateway_id = gateway["system"]["id"]
+
+    def get_response(self):
+        response = requests.get(self.live_url.format(self.gateway_id),headers=self.headers)
+        response_json = response.json()
+        self.response_json = response_json
     
     def retrieve_live_data(self):
         response = requests.get(self.live_url.format(self.gateway_id),headers=self.headers)
@@ -46,4 +57,7 @@ class GridboxConnector:
             self.generate_header()
             self.retrieve_live_data(self)
 
-GridboxConnector(data).retrieve_live_data()
+with open("gridbox_data.json", "a") as f:
+    json.dump(GridboxConnector(data).response_json, f)
+    f.write('\t')
+    f.write('\n')
