@@ -21,3 +21,6 @@ pip install -r requirements.txt
 python read_live_data.py
 ```
 
+Use script 'db_read_live_data.py' to write your data in your influxdb database
+
+set your own database in row :
