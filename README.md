@@ -20,7 +20,12 @@ You need your Login Data from the App or from https://mygridbox.viessmann.com/lo
 pip install -r requirements.txt
 python read_live_data.py
 ```
+# Writing your data into Influx DB  
+Use script 'db_read_live_data.py' to write your data in your influxdb database. Make sure to have influxdb and your database
+already set up.
 
-Use script 'db_read_live_data.py' to write your data in your influxdb database
+set your own database in row '19' 
+database = 'YourDatabaseName'
 
-set your own database in row :
+set your own measurement in row '56'
+measurement = 'YourMeasurement'
