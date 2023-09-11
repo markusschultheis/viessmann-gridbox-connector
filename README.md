@@ -24,8 +24,10 @@ python read_live_data.py
 Use script 'db_read_live_data.py' to write your data in your influxdb database. Make sure to have influxdb and your database
 already set up.
 
-set your own database in row '19' 
-database = 'YourDatabaseName'
+```
+set your own database in row 19 
+database = "YourDatabaseName"
 
-set your own measurement in row '56'
-measurement = 'YourMeasurement'
+set your own measurement in row 56
+measurement = "YourMeasurement"
+```
